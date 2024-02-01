@@ -18,12 +18,14 @@ client = httpx.AsyncClient()
 
 app = FastAPI()
 
-@app.post("/webhook/")
-async def webhook(req: Request):
+
+@app.post("/")
+async def send_message(req: Request):
     data = await req.json()
-    chat_id = data['message']['chat']['id']
-    text = data['message']['text']
+    chat_id = data['name']
+    text = data['message']
 
     await client.get(f"{BASE_URL}/sendMessage?chat_id={chat_id}&text={text}")
 
     return data
+
